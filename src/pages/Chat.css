@@ -1,0 +1,90 @@
+.chat-container {
+  width: 400px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height: 100svh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-history {
+  overflow-y: auto;
+}
+
+.user-message, .bot-message {
+  display: flex;
+}
+
+.user-message > p, .bot-message > p {
+  max-width: 70%;
+  padding: 15px;
+  margin-bottom: 5px;
+}
+
+.user-message > p {
+  background-color: #cadeff;
+  margin-left: auto;
+  text-align: right;
+  border-radius: 10px 10px 0px 10px;
+}
+
+.bot-message > p {
+  background-color: #58A090;
+  color: #FFF;
+  border-radius: 10px 10px 10px 0px;
+
+}
+
+.user-message {
+  text-align: right;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  align-items: center;
+}
+
+.option {
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.option:hover {
+  background-color: #3c87ff;
+  color: #eee;
+}
+
+.user-input {
+  display: flex;
+  margin-top: auto; /* 입력창이 아래에 위치하도록 조정 */
+}
+
+textarea {
+  flex: 1;
+  padding: 5px;
+  resize: none;
+  font-family: 'Nanum Gothic', 'Pretendard-Regular', 'NanumSquare' ;
+  border-radius: 5px;
+}
+
+.chatBtn {
+  display: inline-block;
+  font-family: 'Nanum Gothic', 'Pretendard-Regular', 'NanumSquare' ;
+  padding: 5px 10px;
+  margin-left: 5px;
+  background-color: #cadeff;
+  border: none;
+  border-radius: 5px;
+  min-height: 30px;
+  cursor: pointer;
+}
+
+.chat-history > p {
+  white-space: pre-wrap;
+}

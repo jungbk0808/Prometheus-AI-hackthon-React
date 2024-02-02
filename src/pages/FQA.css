@@ -1,0 +1,43 @@
+.FQA {
+  width: 100svh;
+  box-sizing: border-box;
+  max-width: 400px;
+  text-align: center;
+}
+
+.faq-item {
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+  /* transition: background-color 0.3s ease; */
+}
+
+.faq-item:hover {
+  background-color: #f9f9f9;
+}
+
+.question {
+  font-size: large;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.question::after {
+  content: '\002B';
+  float: right;
+}
+
+.question.open::after {
+  content: "\2212";
+}
+
+.answer {
+  margin-top: 10px;
+}
+
+.faq-item.open {
+  background-color: #f0f0f0;
+}

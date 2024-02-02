@@ -1,0 +1,28 @@
+.homeBtn {
+  margin: 10px;
+  font-size: large;
+  padding: 17px;
+  max-height: 70px;
+  width: 180px;
+  border: none;
+  font-family: 'NanumSquare', 'Pretendard-Regular', 'Nanum Gothic';
+  cursor: pointer;
+  background-color: #58A090;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 50px;
+}
+
+.Home {
+  display: flex;
+}
+
+@media screen and (max-width: 700px) {
+  .Home, .button-container { flex-direction: column; }
+  .button-container { padding: 20px 0px 0px 0px; }
+}
