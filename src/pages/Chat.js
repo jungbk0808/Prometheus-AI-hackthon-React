@@ -26,20 +26,29 @@ function Chat() {
   const helpMessages = ['근로기준법은 근로조건의 기준을 정함으로써 근로자의 기본적 생활을 보장 및 향상시키며 균형 있는 국민경제의 발전을 꾀하는 법입니다. 근로 기준, 근로 계약, 임금, 안전과 보건, 재해 보상 등에 대해 다룹니다.',
     '산업안전보건법은 산업재해를 예방하고 쾌적한 작업 환경을 조성함으로써 안전 및 보건을 유지ㆍ증진하기 위한 법입니다. 안전보건관리체제, 안전보건교육, 유해 및 위험 방지 조치 등에 대해 다룹니다.',
     '고용보험법은 직업능력의 개발과 향상을 꾀하고 근로자 등의 생활안정과 구직 활동을 촉진함으로써 경제ㆍ사회 발전에 이바지하는 법입니다. 피보험자의 관리, 고용안정ㆍ직업능력개발 사업, 구직급여, 취업 촉진 수당 등에 대해 다룹니다.']
-  
+
   // 토큰 수
   const storageToken = localStorage.getItem('token');
   const initToken = storageToken === null ? 10 : Number(storageToken);
   const [token, setToken] = useState(initToken);
 
-  // 채팅 창 자동 스크롤
+  // 채팅 창 자동 스크롤 함수
   const chatHistoryRef = useRef();
+  const scrollToBottom = () => {
+    chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
+    console.log('내려가')
+  }
+
   useEffect(() => {
     // 채팅 내용이 업데이트 될 때마다 스크롤을 아래로 이동
-    chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
+    scrollToBottom();
     // 대화 내용 storage 저장
     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
   }, [chatHistory]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [watingMessage])
 
   // 사용자 선택 옵션 storage 저장
   useEffect(() => {
@@ -54,7 +63,6 @@ function Chat() {
   // 옵션 클릭 시 발생 함수
   const optionClick = (option) => {
     setChatHistory(chatHistory => [...chatHistory, {role: 'user', message: option}]);
-    chatHistory.map(chat => console.log(`${chat.role} - ${chat.message}`))
     
     if (option === options[options.length - 1]) {
       helpMessages.map(help => setChatHistory(chatHistory => [...chatHistory, {role: 'bot', message: help}]));
@@ -105,10 +113,20 @@ function Chat() {
     setUserInput('');
 
     // 메시지 기다리는 중으로 변경
-    setTimeout(() => setWatingMessage(pre => true), 500)
+    setTimeout(() => {
+      setWatingMessage(pre => true);
+    }, 500)
 
     // 토큰 차감
     setToken(pre => pre-1);
+
+    if (token < 0) {
+      setChatHistory(chatHistory => [
+        ...chatHistory,
+        { role: 'bot', message: '토큰을 모두 소진하셨습니다.' }
+      ]);
+      return;
+    }
 
     // 서버에 post 요청
     const response = await fetch('http://hackathon-flask-vmgcf.run-us-west2.goorm.site:80/chat', {
@@ -130,14 +148,17 @@ function Chat() {
       ...chatHistory,
       { role: 'bot', message: data.message }
     ]);
+
+    // TO DO: 회원가입 추가
+    // TO DO: 토큰 결제 추가
   };
 
   return (
     <div className="chat-container">
       <div style={{display: 'flex', alignItems: 'center'}}>
         <p style={{display: 'inline-block', flex: '1'}}>Q&L 법률 상담 {userOption && `- ${userOption}`}</p>
-        <div style={{float: 'right'}}>
-          <img src='coin.png' alt='token' width='15px'/>
+        <div style={{float: 'right', padding: '0px 5px', cursor: 'pointer'}}>
+          <img src='coin.png' alt='token' onClick={() => {}} style={{marginRight: '3px'}} width='15px'/>
           {token}
         </div>
         <button style={{float: 'right'}} className='chatBtn' onClick={newChat}>새 채팅</button>
